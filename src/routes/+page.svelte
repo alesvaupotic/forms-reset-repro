@@ -1,19 +1,22 @@
-<script>
+<script lang="ts">
 	import { person_form } from './data.remote';
 	let bound_form;
 </script>
 
 <h1>Forms demo</h1>
 
-<form {...person_form} bind:this={bound_form}>
-	<input type="text" name="fname" id="fname" defaultValue="Aleš" onblur={() => person_form.validate()} />
-	<input type="text" name="lname" id="lname" defaultValue="Vaupotič" onblur={() => person_form.validate()} />
+<form {...person_form} bind:this={bound_form} onchange={() => person_form.validate()}>
+	<input type="text" name={person_form.fields.fname.name()} defaultValue="Aleš" />
+	{#each person_form.fields.fname.issues() as issue}
+		<p class="px-3 font-semibold text-reepolee">{@html issue.message}</p>
+	{/each}
+	<br />
 
-	{#if person_form.issues?.fname}
-		{#each person_form.issues?.fname as issue}
-			<p>{issue.message}</p>
-		{/each}
-	{/if}
+	<input type="text" name={person_form.fields.lname.name()} defaultValue="Vaupotič" />
+	{#each person_form.fields.lname.issues() as issue}
+		<p class="px-3 font-semibold text-reepolee">{@html issue.message}</p>
+	{/each}
+
 	<p>
 		<button>Save</button>
 		<button
@@ -29,8 +32,10 @@
 	</p>
 </form>
 
-<pre>INPUT:{JSON.stringify(person_form.input, null, 4)}</pre>
-<pre>ISSUES:{JSON.stringify(person_form.issues, null, 4)}</pre>
+<!-- <pre>FNAME:{JSON.stringify(person_form.fields.fname.value(), null, 4)}</pre>
+<pre>--- ISSUES:{JSON.stringify(person_form.fields.fname.issues(), null, 4)}</pre>
+<pre>LNAME:{JSON.stringify(person_form.fields.lname.value(), null, 4)}</pre>
+<pre>--- ISSUES:{JSON.stringify(person_form.fields.lname.issues(), null, 4)}</pre> -->
 
 {#if person_form.result?.success}
 	<p>Successfully published!</p>
