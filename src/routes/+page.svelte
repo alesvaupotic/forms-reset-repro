@@ -47,9 +47,8 @@
 			type="button"
 			onclick={() => {
 				document.forms[0].reset();
-
 				// createPost.fields.set(post);
-				// createPost.validate();
+				// createPost.validate({ includeUntouched: true });
 			}}
 		>
 			Reset!
@@ -61,17 +60,18 @@
 	<pre>values:{JSON.stringify(createPost.fields.value(), null, 4)}</pre>
 	<pre>issues: {JSON.stringify(createPost.fields.allIssues(), null, 4)}</pre>
 	<pre>valid_data: {JSON.stringify(createPost.result?.valid_data, null, 4)}</pre>
+	<pre>original post:{JSON.stringify(post, null, 4)}</pre>
 </div>
 
 <style>
 	div {
 		display: grid;
-		gap: 6px;
+		gap: 4px;
 	}
 
 	form {
 		display: grid;
 		max-width: 50ch;
-		gap: 20px;
+		gap: 1rem;
 	}
 </style>
