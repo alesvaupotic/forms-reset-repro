@@ -1,42 +1,77 @@
 <script lang="ts">
-	import { person_form } from './data.remote';
-	let bound_form;
+	import { createPost } from './data.remote';
+
+	const post = {
+		title: 'Existing title',
+		operatingSystem: 2,
+		content: 'Existing content',
+	};
+
+	createPost.fields.set(post);
 </script>
 
-<h1>Forms demo</h1>
+<form {...createPost} onchange={() => createPost.validate()}>
+	<div>
+		<label for="title">Title:</label>
+		<input {...createPost.fields.title.as('text')} defaultValue={post.title} id="title" />
+		{#if createPost.fields.title.issues()}
+			{#each createPost.fields.title.issues() as issue}
+				<p class="issue">{issue.message}</p>
+			{/each}
+		{/if}
+	</div>
 
-<form {...person_form} bind:this={bound_form} onchange={() => person_form.validate()}>
-	<input type="text" name={person_form.fields.fname.name()} defaultValue="Aleš" />
-	{#each person_form.fields.fname.issues() as issue}
-		<p class="px-3 font-semibold text-reepolee">{@html issue.message}</p>
-	{/each}
-	<br />
+	<div>
+		<label for="os">My Operating System is:</label>
+		<select {...createPost.fields.operatingSystem.as('select')} id="os">
+			<option value="0">windows</option>
+			<option value="1">mac</option>
+			<option value="2">linux</option>
+		</select>
+	</div>
 
-	<input type="text" name={person_form.fields.lname.name()} defaultValue="Vaupotič" />
-	{#each person_form.fields.lname.issues() as issue}
-		<p class="px-3 font-semibold text-reepolee">{@html issue.message}</p>
-	{/each}
+	<div>
+		<label for="content">Write your post: </label>
+		<textarea name={'content'} defaultValue={post.content} id="content"></textarea>
+		{#if createPost.fields.content.issues()}
+			{#each createPost.fields.content.issues() as issue}
+				<p class="issue">{issue.message}</p>
+			{/each}
+		{/if}
+	</div>
 
 	<p>
-		<button>Save</button>
+		<button>Publish!</button>
+
 		<button
 			type="button"
 			onclick={() => {
-				bound_form.reset();
+				document.forms[0].reset();
 
-				// calling validate() does the trick.
-				// comment it out and watch how input and issues stay untouched after reset();
-				person_form.validate();
-			}}>Reset</button
+				// createPost.fields.set(post);
+				// createPost.validate();
+			}}
 		>
+			Reset!
+		</button>
 	</p>
 </form>
 
-<!-- <pre>FNAME:{JSON.stringify(person_form.fields.fname.value(), null, 4)}</pre>
-<pre>--- ISSUES:{JSON.stringify(person_form.fields.fname.issues(), null, 4)}</pre>
-<pre>LNAME:{JSON.stringify(person_form.fields.lname.value(), null, 4)}</pre>
-<pre>--- ISSUES:{JSON.stringify(person_form.fields.lname.issues(), null, 4)}</pre> -->
+<div>
+	<pre>values:{JSON.stringify(createPost.fields.value(), null, 4)}</pre>
+	<pre>issues: {JSON.stringify(createPost.fields.allIssues(), null, 4)}</pre>
+	<pre>valid_data: {JSON.stringify(createPost.result?.valid_data, null, 4)}</pre>
+</div>
 
-{#if person_form.result?.success}
-	<p>Successfully published!</p>
-{/if}
+<style>
+	div {
+		display: grid;
+		gap: 6px;
+	}
+
+	form {
+		display: grid;
+		max-width: 50ch;
+		gap: 20px;
+	}
+</style>
