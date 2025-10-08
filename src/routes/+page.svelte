@@ -63,20 +63,28 @@
 			type="button"
 			onclick={async () => {
 				console.log('resetting:', post);
+
+				// case 2:
+				// leave some inputs empty to get issues
+				// form reset does not get rid of any issues
 				document.forms[0].reset();
 			}}
 		>
-			form reset
+			Form Reset
 		</button>
 
 		<button
 			type="button"
 			onclick={() => {
 				console.log('setting:', post);
+
+				// case 3:
+				// setting doesn't set values until first change on inputs
+
 				createPost.fields.set(post);
 			}}
 		>
-			Set from db
+			Set from Post
 		</button>
 
 		<button
@@ -84,7 +92,7 @@
 			onclick={async () => {
 				console.log('full setting:', post);
 
-				// case 3:
+				// case 4:
 				// delete values from all inputs to get issues and then press this one
 				// this is way hacky and still does not set fields.values
 				// just gets rid of potential fields.issues
@@ -96,7 +104,7 @@
 				// await createPost.validate({ includeUntouched: true });
 			}}
 		>
-			Complicated Re-set
+			Validated Re-set
 		</button>
 	</p>
 </form>
