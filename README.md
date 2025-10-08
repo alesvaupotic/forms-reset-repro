@@ -3,10 +3,8 @@
 As of versions
 
 ```
-"@sveltejs/kit": "2.43.2",
-"svelte": "5.39.5",
+"@sveltejs/kit": "2.46.2",
+"svelte": "5.39.10",
 ```
 
-`form().input` is not reset and `form().issues` are not re-evalutated once `<form>` is `reset()`.
-
-Calling `form().validate()` after reset solves the problem.
+`<select>` with integer option values is not working as expected, as there is no `defaultValue` with `.toString()` to be set on it.
