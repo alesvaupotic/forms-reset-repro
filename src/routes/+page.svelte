@@ -11,7 +11,7 @@
 	// case 1:
 	// do not set values on start
 	// and form values will be empty as they should
-	// then click "Set from db" button
+	// then click "Set from Post" button
 	// which should load data into fields.values but does not update the actual form inputs.
 	// first change of inputs fills-in all of them
 	//
