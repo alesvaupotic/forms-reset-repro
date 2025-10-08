@@ -3,17 +3,24 @@
 
 	const post = {
 		title: 'Existing title',
-		operatingSystem: 2,
+		operatingSystem: '2',
 		content: 'Existing content',
 	};
 
-	createPost.fields.set(post);
+	// createPost.fields.set(post);
 </script>
 
-<form {...createPost} onchange={() => createPost.validate()}>
+<form
+	{...createPost.enhance(async ({ form, data, submit }) => {
+		console.log('submitted data:', data);
+		await submit();
+	})}
+	onchange={() => createPost.validate()}
+>
 	<div>
 		<label for="title">Title:</label>
-		<input {...createPost.fields.title.as('text')} defaultValue={post.title} id="title" />
+		<input {...createPost.fields.title.as('text')} id="title" />
+
 		{#if createPost.fields.title.issues()}
 			{#each createPost.fields.title.issues() as issue}
 				<p class="issue">{issue.message}</p>
@@ -32,7 +39,8 @@
 
 	<div>
 		<label for="content">Write your post: </label>
-		<textarea name={'content'} defaultValue={post.content} id="content"></textarea>
+		<textarea {...createPost.fields.content.as('text')} id="content"></textarea>
+
 		{#if createPost.fields.content.issues()}
 			{#each createPost.fields.content.issues() as issue}
 				<p class="issue">{issue.message}</p>
@@ -46,9 +54,12 @@
 		<button
 			type="button"
 			onclick={() => {
-				document.forms[0].reset();
+				console.log('setting:', post);
+
+				createPost.fields.set(post);
+				// await createPost.validate({ includeUntouched: true });
 				// createPost.fields.set(post);
-				// createPost.validate({ includeUntouched: true });
+				// await createPost.validate({ includeUntouched: true });
 			}}
 		>
 			Reset!
