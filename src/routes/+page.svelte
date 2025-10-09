@@ -29,11 +29,9 @@
 		<label for="title">Title:</label>
 		<input {...createPost.fields.title.as('text')} id="title" />
 
-		{#if createPost.fields.title.issues()}
-			{#each createPost.fields.title.issues() as issue}
-				<p class="issue">{issue.message}</p>
-			{/each}
-		{/if}
+		{#each createPost.fields.title.issues() as issue}
+			<p class="issue">{issue.message}</p>
+		{/each}
 	</div>
 
 	<div>
@@ -49,11 +47,9 @@
 		<label for="content">Write your post: </label>
 		<textarea {...createPost.fields.content.as('text')} id="content"></textarea>
 
-		{#if createPost.fields.content.issues()}
-			{#each createPost.fields.content.issues() as issue}
-				<p class="issue">{issue.message}</p>
-			{/each}
-		{/if}
+		{#each createPost.fields.content.issues() as issue}
+			<p class="issue">{issue.message}</p>
+		{/each}
 	</div>
 
 	<p>
@@ -126,5 +122,10 @@
 		display: grid;
 		max-width: 50ch;
 		gap: 1rem;
+	}
+
+	.issue {
+		color: red;
+		font-weight: semibold;
 	}
 </style>
