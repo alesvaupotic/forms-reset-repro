@@ -10,10 +10,6 @@
 
 	// case 1:
 	// do not set values on start
-	// and form values will be empty as they should
-	// then click "Set from Post" button
-	// which should load data into fields.values but does not update the actual form inputs.
-	// first change of inputs fills-in all of them
 	//
 	// createPost.fields.set(post);
 </script>
@@ -73,10 +69,6 @@
 			type="button"
 			onclick={() => {
 				console.log('setting:', post);
-
-				// case 3:
-				// setting doesn't set values until first change on inputs
-
 				createPost.fields.set(post);
 			}}
 		>
@@ -87,17 +79,8 @@
 			type="button"
 			onclick={async () => {
 				console.log('full setting:', post);
-
-				// case 4:
-				// delete values from all inputs to get issues and then press this one
-				// this is way hacky and still does not set fields.values
-				// just gets rid of potential fields.issues
-				// on second press or if the following commands are repeated twice
-
 				createPost.fields.set(post);
 				await createPost.validate({ includeUntouched: true });
-				// createPost.fields.set(post);
-				// await createPost.validate({ includeUntouched: true });
 			}}
 		>
 			Validated Re-set
