@@ -1,12 +1,26 @@
 <script lang="ts">
 	import PreData from '$lib/PreData.svelte';
 	import { createPost } from './data.remote';
+	import { schema } from './schema';
 
 	const post = {
 		title: 'Existing title',
 		operatingSystem: '2',
+		editor: '',
 		content: 'Existing content',
 	};
+
+	const editors = [
+		{ os_id: '0', name: 'vscode' },
+		{ os_id: '1', name: 'vscode' },
+		{ os_id: '2', name: 'vscode' },
+		{ os_id: '0', name: 'sublime' },
+		{ os_id: '0', name: 'zed' },
+		{ os_id: '0', name: 'notepad' },
+		{ os_id: '2', name: 'textmate' },
+	];
+
+	const options_editors = $derived(editors.filter((e) => e.os_id === createPost.fields.operatingSystem.value()));
 
 	// case 1:
 	// do not set values on start
@@ -14,13 +28,7 @@
 	// createPost.fields.set(post);
 </script>
 
-<form
-	{...createPost.enhance(async ({ form, data, submit }) => {
-		console.log('submitted data:', data);
-		await submit();
-	})}
-	onchange={() => createPost.validate()}
->
+<form {...createPost.preflight(schema)} onchange={() => createPost.validate()}>
 	<div>
 		<label for="title">Title:</label>
 		<input {...createPost.fields.title.as('text')} id="title" />
@@ -36,6 +44,15 @@
 			<option value="0">windows</option>
 			<option value="1">mac</option>
 			<option value="2">linux</option>
+		</select>
+	</div>
+
+	<div>
+		<label for="editor">My Editor is:</label>
+		<select {...createPost.fields.editor.as('select')} id="editor">
+			{#each options_editors as editor}
+				<option value={editor.name}>{editor.name}</option>
+			{/each}
 		</select>
 	</div>
 

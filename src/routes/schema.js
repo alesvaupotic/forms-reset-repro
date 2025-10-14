@@ -6,5 +6,6 @@ export const schema = v.object({
 		v.string(),
 		v.transform((v) => parseInt(v))
 	),
+	editor: v.pipe(v.string(), v.nonEmpty()),
 	content: v.pipe(v.string(), v.nonEmpty()),
 });
