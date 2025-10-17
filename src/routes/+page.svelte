@@ -28,6 +28,8 @@
 	// createPost.fields.set(post);
 </script>
 
+<pre>{JSON.stringify(createPost.fields.value(), null, 4)}</pre>
+
 <form {...createPost.preflight(schema)} onchange={() => createPost.validate()}>
 	<div>
 		<label for="title">Title:</label>
