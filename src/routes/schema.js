@@ -1,11 +1,5 @@
-import * as v from 'valibot';
+import * as z from "zod"; 
 
-export const schema = v.object({
-	title: v.pipe(v.string(), v.nonEmpty()),
-	operatingSystem: v.pipe(
-		v.string(),
-		v.transform((v) => parseInt(v))
-	),
-	editor: v.pipe(v.string(), v.nonEmpty()),
-	content: v.pipe(v.string(), v.nonEmpty()),
+export const schema = z.object({
+	date: z.iso.date(),
 });

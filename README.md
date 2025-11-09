@@ -1,15 +1,7 @@
 ## repro repo for forms remote functions
 
-# third edition as development is really quick
+This branch demonstrates how a form-bound input type="date" breaks once you start typing into an input with valid prepopulated date.
 
-As of versions
+If you start typing with <kbd>0</kbd>, to enter "01/01/2025", the whole input resets to empty while the locally-bound just waits for you to continue typing and eventually get back to valid date.
 
-```
-"@sveltejs/kit": "2.46.5",
-"svelte": "5.39.11",
-```
-
-`set()` now correctly sets the values in fields, open issues remain and must be removed by `validate({ includeUntouched: true })`.
-
-`<select>` with integer option values is not working as expected, as there is no `defaultValue` for it to be set with `.toString()`.
-A helper is needed to convert data to strings-only object. I guess converting to string during value assignment wouldn't hurt.
+It then needs a whole new input sequence, you have to type <kbd>0</kbd> again to start populating the input correctly.
